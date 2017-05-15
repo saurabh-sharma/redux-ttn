@@ -23,11 +23,11 @@ const reducerOne = (state = state1, action) => {
     switch (action.type) {
         case 'INC_P': {
             const counter = state.counter_p + action.data;
-            return { ...state, counter };
+            return { ...state, counter_p: counter };
         }
         case 'DEC_P': {
             const counter = state.counter_p - action.data;
-            return { ...state, counter };
+            return { ...state, counter_p: counter };
         }
     }
     return state;
@@ -37,11 +37,11 @@ const reducerTwo = (state = state1, action) => {
     switch (action.type) {
         case 'INC_U': {
             const counter = state.counter_u + action.data;
-            return { ...state, counter };
+            return { ...state, counter_u: counter };
         }
         case 'DEC_U': {
             const counter = state.counter_u - action.data;
-            return { ...state, counter };
+            return { ...state, counter_u: counter };
         }
     }
     return state;
@@ -150,9 +150,10 @@ const decrementPostCallCount = (data) => {
 }
 
 //calling by action creators 
+
 store.dispatch(fetchUsers());
 store.dispatch(fetchPosts());
 
-store.dispatch(incrementUserCallCount(5));
-store.dispatch(incrementUserCallCount(10));
-store.dispatch(incrementUserCallCount(4));
+// store.dispatch(incrementUserCallCount(5));
+// store.dispatch(incrementUserCallCount(10));
+// store.dispatch(incrementUserCallCount(4));
