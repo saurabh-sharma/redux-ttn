@@ -96,6 +96,7 @@ const asyncCallback = (store) => (next) => (action) => {
 };
 
 let fetchUsers = () => {
+    console.log("Fetch Users Called")
     return (dispatch) => {
         fetch('https://jsonplaceholder.typicode.com/users') //Ajax request
         .then((response) => response.json())
@@ -109,6 +110,7 @@ let fetchUsers = () => {
     }
 }
 let fetchPosts = () => {
+    console.log("Fetch Posts Called")
     return (dispatch) => {
         fetch('https://jsonplaceholder.typicode.com/posts') //Ajax request
         .then((response) => response.json())
@@ -122,15 +124,12 @@ let fetchPosts = () => {
     }
 }
 
-
 const middlewares = applyMiddleware(logger, asyncCallback);
 const store = createStore(reducers, middlewares);
 
 
-//const store = createStore(reducer, initial value (if not using object));
-//const store = createStore(reducers);
 store.subscribe(() => {
-    console.log("State Updated", store.getState())
+    console.log("State Updated", store.getState());
 })
 
 
@@ -151,7 +150,9 @@ const decrementPostCallCount = (data) => {
 }
 
 //calling by action creators 
+store.dispatch(fetchUsers());
+store.dispatch(fetchPosts());
 
- store.dispatch(incrementUserCallCount(5));
- store.dispatch(incrementUserCallCount(10));
- store.dispatch(incrementUserCallCount(4));
+store.dispatch(incrementUserCallCount(5));
+store.dispatch(incrementUserCallCount(10));
+store.dispatch(incrementUserCallCount(4));
