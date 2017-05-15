@@ -109,15 +109,17 @@ let fetchUsers = () => {
     }
 }
 let fetchPosts = () => {
-    fetch('https://jsonplaceholder.typicode.com/posts') //Ajax request
-    .then((response) => response.json())
-    .then(data => {
-        dispatch({type:'FETCH_POSTS', data });
-        dispatch(incrementPostCallCount(1));
-    })
-    .catch(err => {
-        dispatch({ type: 'ERROR_POSTS', data: 'An Error occured in Fetching Posts' });
-    });
+    return (dispatch) => {
+        fetch('https://jsonplaceholder.typicode.com/posts') //Ajax request
+        .then((response) => response.json())
+        .then(data => {
+            dispatch({type:'FETCH_POSTS', data });
+            dispatch(incrementPostCallCount(1));
+        })
+        .catch(err => {
+            dispatch({ type: 'ERROR_POSTS', data: 'An Error occured in Fetching Posts' });
+        });
+    }
 }
 
 
