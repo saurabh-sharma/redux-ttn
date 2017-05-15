@@ -23,11 +23,11 @@ const reducerOne = (state = state1, action) => {
     switch (action.type) {
         case 'INC_P': {
             const counter = state.counter_p + action.data;
-            return { ...state, counter };
+            return { ...state, counter_p:counter };
         }
         case 'DEC_P': {
             const counter = state.counter_p - action.data;
-            return { ...state, counter };
+            return { ...state, counter_p:counter };
         }
     }
     return state;
@@ -37,11 +37,11 @@ const reducerTwo = (state = state1, action) => {
     switch (action.type) {
         case 'INC_U': {
             const counter = state.counter_u + action.data;
-            return { ...state, counter };
+            return { ...state, counter_u:counter };
         }
         case 'DEC_U': {
             const counter = state.counter_u - action.data;
-            return { ...state, counter };
+            return { ...state, counter_u:counter };
         }
     }
     return state;
@@ -88,7 +88,7 @@ const logger = (store) => (next) => (action) => {
 }
 
 
-//Async actions through Redux Thunk
+
 const asyncAction = () => {
     return (dispatch) => { //this is dispatch method
         fetch('https://jsonplaceholder.typicode.com/users')
@@ -103,7 +103,6 @@ const asyncAction = () => {
     }
 }
 
-//Async actions through Redux Thunk
 const asyncAction2 = () => {
     return (dispatch) => { //this is dispatch method
         fetch('https://jsonplaceholder.typicode.com/posts') //Ajax request
@@ -118,10 +117,23 @@ const asyncAction2 = () => {
     }
 }
 
+//thunkMiddleware returns actions instead of object, thus handles the callbacks.
+/*
+    //If thunkMiddleware is not being used, then we need to handle the returns like the following middleware: 
+    const asyncCallback = (store) => (next) => (action) => {
+        if(typeof action == 'function') {
+            action(store.dispatch);
+        }  else{
+            next(action);
+        }
+    };
+
+    //And then pass it to middlewares instead of thunkMiddleware
+
+*/
 
 
-
-const middlewares = applyMiddleware(logger, asyncAction, asyncAction2);
+const middlewares = applyMiddleware(logger, thunkMiddleware);
 const store = createStore(reducers, middlewares);
 
 
@@ -148,9 +160,14 @@ const decrementPostCallCount = (data) => {
     return { type: 'DEC_P', data }
 }
 
+
 //calling by action creators 
 
- store.dispatch(incrementUserCallCount(5));
+store.dispatch(asyncAction());
+store.dispatch(asyncAction2());
+
+
+// store.dispatch(incrementUserCallCount(5));
 // store.dispatch(incrementAction(10));
 // store.dispatch(decrementAction(4));
 
